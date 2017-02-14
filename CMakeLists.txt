@@ -31,7 +31,7 @@ find_package(KF5 REQUIRED COMPONENTS
 )
 
 
-set(ktimer_SRCS main.cpp ktimer.cpp )
+set(ktimer_SRCS main.cpp ktimerjob.cpp ktimerpref.cpp )
 
 ki18n_wrap_ui(ktimer_SRCS prefwidget.ui )
 
