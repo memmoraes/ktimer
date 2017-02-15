@@ -12,37 +12,35 @@ struct KTimerPrefPrivate
     QList<KTimerJob *> jobs;
 };
 
-class KTimerJobItem : public QTreeWidgetItem {
+class KTimerJobItem : public QTreeWidgetItem 
+{
 public:
-    KTimerJobItem( KTimerJob *job, QTreeWidget *parent )
-        : QTreeWidgetItem() {
-			parent->addTopLevelItem(this);
-        m_job = job;
+    KTimerJobItem (KTimerJob *job, QTreeWidget *parent) : QTreeWidgetItem() 
+    {
+        parent->addTopLevelItem(this);
+        m_job = job; // m_job is a pointer of KTimerJob.
         m_error = false;
         update();
     }
 
-    KTimerJobItem( KTimerJob *job, QTreeWidget * parent, QTreeWidgetItem *after )
-        : QTreeWidgetItem() {
-			int otherItemIndex = parent->indexOfTopLevelItem(after);
-			parent->insertTopLevelItem(otherItemIndex + 1, this);
-        m_job = job;
-        m_error = false;
-        update();
-    }
-
-    virtual ~KTimerJobItem() {
+    virtual ~KTimerJobItem() 
+    {
         delete m_job;
     }
 
-    KTimerJob *job() { return m_job; }
+    KTimerJob *job() 
+    { 
+        return m_job;
+    }
 
-    void setStatus( bool error ) {
+    void setStatus( bool error ) 
+    {
         m_error = error;
         update();
     }
 
-    void update() {
+    void update() 
+    {
         setText( 0, m_job->formatTime(m_job->value()) );
 
         if( m_error )
@@ -130,7 +128,7 @@ void KTimerPref::add()
     job->setUser( item );
 
     // Qt drops currentChanged signals on first item (bug?)
-    if( m_list->topLevelItemCount()==1 )
+    if (m_list->topLevelItemCount() == 1)
       currentChanged( item , NULL);
 
     m_list->setCurrentItem( item );
@@ -208,7 +206,7 @@ void KTimerPref::currentChanged( QTreeWidgetItem *i , QTreeWidgetItem * /* old *
 
 void KTimerPref::saveJobs( KConfig *cfg )
 {
-	const int nbList=m_list->topLevelItemCount();
+	const int nbList = m_list->topLevelItemCount();
 	for (int num = 0; num < nbList; ++num)
 	{
 		KTimerJobItem *item = static_cast<KTimerJobItem*>(m_list->topLevelItem(num));
@@ -251,12 +249,13 @@ void KTimerPref::saveAllJobs() {
 void KTimerPref::jobChanged( KTimerJob *job )
 {
     KTimerJobItem *item = static_cast<KTimerJobItem*>(job->user());
-    if( item ) {
+    if( item ) 
+    {
         item->update();
         m_list->update();
 
-        if( item==m_list->currentItem() ) {
-
+        if (item == m_list->currentItem()) 
+        {
             // XXX optimize
             m_slider->setMaximum( job->delay() );
             m_slider->setValue( job->value() );
