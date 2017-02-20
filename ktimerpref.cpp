@@ -95,7 +95,6 @@ KTimerPref::KTimerPref( QWidget *parent)
     connect(m_list, &QTreeWidget::currentItemChanged, this, &KTimerPref::currentChanged);
     loadJobs( KSharedConfig::openConfig().data() );
 
-    show();
 }
 
 KTimerPref::~KTimerPref()
