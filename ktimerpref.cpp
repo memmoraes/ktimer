@@ -113,7 +113,7 @@ void KTimerPref::done(int result) {
     QDialog::done(result);
 }
 
-KTimerJobItem KTimerPref::newJob() {
+KTimerJobItem* KTimerPref::newJob() {
     KTimerJob *job = new KTimerJob;
     KTimerJobItem *item = new KTimerJobItem( job, m_list );
 
@@ -123,14 +123,14 @@ KTimerJobItem KTimerPref::newJob() {
     connect(job, &KTimerJob::commandChanged, this, &KTimerPref::jobChanged);
     connect(job, &KTimerJob::finished, this, &KTimerPref::jobFinished);
     
+    job->setUser( item );
+    
     return item;
 }
 
 void KTimerPref::add()
 {
     KTimerJobItem *item = newJob();
-
-    job->setUser( item );
 
     // Qt drops currentChanged signals on first item (bug?)
     if (m_list->topLevelItemCount() == 1)
@@ -229,18 +229,11 @@ void KTimerPref::loadJobs( KConfig *cfg )
 {
     const int num = cfg->group("Jobs").readEntry( "Number", 0 );
     for( int n=0; n<num; n++ ) {
-            KTimerJob *job = new KTimerJob;
-            KTimerJobItem *item = new KTimerJobItem( job, m_list );
-
-            connect(job, &KTimerJob::delayChanged, this, &KTimerPref::jobChanged);
-            connect(job, &KTimerJob::valueChanged, this, &KTimerPref::jobChanged);
-            connect(job, &KTimerJob::stateChanged, this, &KTimerPref::jobChanged);
-            connect(job, &KTimerJob::commandChanged, this, &KTimerPref::jobChanged);
-            connect(job, &KTimerJob::finished, this, &KTimerPref::jobFinished);
-
+            KTimerJobItem *item = newJob();
+        
+            KTimerJob *job = item->job();
             job->load( cfg, QStringLiteral( "Job%1" ).arg(n) );
 
-            job->setUser( item );
             jobChanged ( job);
     }
 
