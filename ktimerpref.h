@@ -15,6 +15,8 @@
 
 class QTreeWidgetItem;
 
+class KTimerJobItem;
+
 class KTimerPref : public QDialog, public Ui::PrefWidget
 {
     Q_OBJECT
@@ -27,10 +29,11 @@ class KTimerPref : public QDialog, public Ui::PrefWidget
     void done(int result);
 
  protected slots:
+    KTimerJobItem* newJob();
     void add();
     void remove();
     void help();
-    void currentChanged( QTreeWidgetItem * , QTreeWidgetItem *);
+    void currentChanged( QTreeWidgetItem * , QTreeWidgetItem *); // change from a 
 
     void saveJobs( KConfig *cfg );
     void loadJobs( KConfig *cfg );

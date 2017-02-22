@@ -24,7 +24,8 @@
 #include <QCommandLineParser>
 #include <kdelibs4configmigrator.h>
 #include <KDBusService>
-#include "ktimer.h"
+#include "ktimerpref.h"
+#include "ktimerjob.h"
 
 static const char description[] =
         I18N_NOOP("KDE Timer");

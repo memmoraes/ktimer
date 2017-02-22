@@ -5,6 +5,7 @@
 #include <QTimer>
 #include <QList>
 #include "ktimerjob.h"
+#include "ktimerpref.h"
 
 struct KTimerJobPrivate {
     unsigned delay;

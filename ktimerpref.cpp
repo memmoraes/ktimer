@@ -113,8 +113,7 @@ void KTimerPref::done(int result) {
     QDialog::done(result);
 }
 
-void KTimerPref::add()
-{
+KTimerJobItem KTimerPref::newJob() {
     KTimerJob *job = new KTimerJob;
     KTimerJobItem *item = new KTimerJobItem( job, m_list );
 
@@ -123,6 +122,13 @@ void KTimerPref::add()
     connect(job, &KTimerJob::stateChanged, this, &KTimerPref::jobChanged);
     connect(job, &KTimerJob::commandChanged, this, &KTimerPref::jobChanged);
     connect(job, &KTimerJob::finished, this, &KTimerPref::jobFinished);
+    
+    return item;
+}
+
+void KTimerPref::add()
+{
+    KTimerJobItem *item = newJob();
 
     job->setUser( item );
 
